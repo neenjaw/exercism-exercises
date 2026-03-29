@@ -1,0 +1,26 @@
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
+
+/**
+ * RobotRegistry
+ */
+public class RobotRegistry {
+  private Set<String> registry;
+  private int maximumPossibleNames;
+
+  public RobotRegistry(int maximumPossibleNames) {
+    this.registry = new ConcurrentSkipListSet<String>();
+    this.maximumPossibleNames = maximumPossibleNames;
+  }
+
+  public void registerName(String name) throws AlreadyRegisteredException, FullRegistryException {
+    if (registry.size() == maximumPossibleNames) throw new FullRegistryException();
+    if (registry.contains(name)) throw new AlreadyRegisteredException(name);
+
+    registry.add(name);
+  }
+
+  public void releaseName(String name) {
+    registry.remove(name);
+  }
+}
